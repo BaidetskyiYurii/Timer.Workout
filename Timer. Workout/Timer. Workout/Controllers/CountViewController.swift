@@ -39,10 +39,9 @@ class CountViewController: UIViewController {
     // MARK:  private func
     private func startExcerciseTimer (excercise: Excercise) {
         timer?.invalidate()
-        excerciseNameLabel.text = excercise.name
+       
         excerciseSecond = excercise.excerciseTime
         restSecond = excercise.restTime
-        
         second = 0
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(timerExcerciseFunc), userInfo: nil, repeats: true)
     }
@@ -56,9 +55,10 @@ class CountViewController: UIViewController {
     
     // MARK:  @objc func
     @objc func timerExcerciseFunc() {
+        second += 1
         doOrRestLabel.text = "Do the excercise!"
         countView.backgroundColor = .systemGreen
-        second += 1
+        excerciseNameLabel.text = excercises?[index].name
         countLabel.text = String(second)
         if String(second) == excerciseSecond {
             second = 0
@@ -67,10 +67,11 @@ class CountViewController: UIViewController {
     }
     
     @objc func timerRestFunc() {
-        doOrRestLabel.text = "Rest!"
-        countView.backgroundColor = .red
         second += 1
+        countView.backgroundColor = .red
+        doOrRestLabel.text = "Rest!"
         countLabel.text = String(second)
+        
         
         if String(second) == restSecond {
             timer?.invalidate()
